@@ -11,6 +11,7 @@ export class TvApp extends LitElement {
     this.name = '';
     this.source = new URL('../assets/channels.json', import.meta.url).href;
     this.listings = [];
+    this.videoId = 'RrqxYQ74F50';
   }
   // convention I enjoy using to define the tag's name
   static get tag() {
@@ -33,6 +34,20 @@ export class TvApp extends LitElement {
         margin: 16px;
         padding: 16px;
       }
+
+      .video-container {
+        position: relative;
+        padding-bottom: 56.25%; /* For 16:9 aspect ratio. Adjust as required. */
+        height: 0;
+        overflow: hidden;
+      }
+    .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
       `
     ];
   }
@@ -54,7 +69,17 @@ export class TvApp extends LitElement {
       }
       <div>
         <!-- video -->
-        <!-- discord / chat - optional -->
+        <div class="video-container">
+          <iframe
+          width="560"
+          height="315"
+          src="https://www.youtube.com/embed/${this.videoId}"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          ></iframe>
+        </div>
+
       </div>
       <!-- dialog -->
       <sl-dialog label="Dialog" class="dialog">
