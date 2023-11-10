@@ -11,7 +11,6 @@ export class TvApp extends LitElement {
     this.name = '';
     this.source = new URL('../assets/channels.json', import.meta.url).href;
     this.listings = [];
-    this.videoId = 'RrqxYQ74F50';
   }
   // convention I enjoy using to define the tag's name
   static get tag() {
@@ -35,18 +34,53 @@ export class TvApp extends LitElement {
         padding: 16px;
       }
 
-      .video-container {
-        position: relative;
-        padding-bottom: 56.25%; /* For 16:9 aspect ratio. Adjust as required. */
-        height: 0;
-        overflow: hidden;
+      .course-container {
+        display: flex;
+        flex-direction: row; /* Aligns the two main sections side by side */
       }
-    .video-container iframe {
-        position: absolute;
-        top: 0;
-        left: 0;
+
+      .lecture-content {
+        flex-grow: 1; /* Allows the content to grow to fill the space */
+        display: flex;
+        flex-direction: column; /* Aligns the content vertically */
+        padding: 10px;
+      }
+
+      .lecture-screen {
+        height: 70vh;
         width: 100%;
-        height: 100%;
+        background-color: #ddd;
+      }
+
+      .lecture-slide-info {
+        height: 20vh;
+        width: 100%;
+        background-color: #eee;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 1em; /* Adds padding to the left and right of the content */
+      }
+
+      .lecture-player {
+        height: 10vh;
+        width: 100%;
+        background-color: #ccc;
+      }
+
+      .lecture-sidebar {
+        width: 250px;
+        background-color: #f8f8f8;
+        height: 100vh;
+        overflow-y: auto;  // Enables scrolling
+        padding: 10px;
+        -webkit-overflow-scrolling: touch; // For smooth scrolling on touch devices
+      }
+
+      tv-channel {
+        flex: 0 0 auto; // Prevents channels from shrinking
+        margin-right: 100px; // Spacing between channels
       }
       `
     ];
@@ -54,22 +88,10 @@ export class TvApp extends LitElement {
   // LitElement rendering template of your element
   render() {
     return html`
-      <h2>${this.name}</h2>
-      ${
-        this.listings.map(
-          (item) => html`
-            <tv-channel 
-              title="${item.title}"
-              presenter="${item.metadata.author}"
-              @click="${this.itemClick}"
-            >
-            </tv-channel>
-          `
-        )
-      }
-      <div>
-        <!-- video -->
-        <div class="video-container">
+
+    <div class="course-container">
+      <div class="lecture-content">
+        <div class="lecture-screen">
           <iframe
           width="560"
           height="315"
@@ -80,6 +102,31 @@ export class TvApp extends LitElement {
           ></iframe>
         </div>
 
+        <div class="lecture-slide-info">
+          <!-- Information about the current slide -->
+          <button class="previous-slide">Previous Slide</button>
+          <button class="next-slide">Next Slide</button>
+        </div>
+
+        <div class="lecture-player">
+          <!-- Player controls or additional content here -->
+        </div>
+
+        <div class = "lecture-sidebar">
+          ${
+            this.listings.map(
+              (item) => html`
+                <tv-channel 
+                  title="${item.title}"
+                  presenter="${item.metadata.author}"
+                  @click="${this.itemClick}"
+                >
+                </tv-channel>
+              `
+            )
+          }
+        </div>      
+
       </div>
       <!-- dialog -->
       <sl-dialog label="Dialog" class="dialog">
@@ -89,18 +136,20 @@ export class TvApp extends LitElement {
     `;
   }
 
+  // Handles item click events
   closeDialog(e) {
     const dialog = this.shadowRoot.querySelector('.dialog');
     dialog.hide();
   }
 
+  // Lifecycle callback for property changes
   itemClick(e) {
     console.log(e.target);
     const dialog = this.shadowRoot.querySelector('.dialog');
     dialog.show();
   }
 
-  // LitElement life cycle for when any property changes
+  // LitElement life cycle for when any property changes | Fetches data from the source URL
   updated(changedProperties) {
     if (super.updated) {
       super.updated(changedProperties);
@@ -113,12 +162,18 @@ export class TvApp extends LitElement {
   }
 
   async updateSourceData(source) {
-    await fetch(source).then((resp) => resp.ok ? resp.json() : []).then((responseData) => {
-      if (responseData.status === 200 && responseData.data.items && responseData.data.items.length > 0) {
+    try {
+      const response = await fetch(source);
+      if (!response.ok) throw new Error('Network response was not ok');
+      const responseData = await response.json();
+      if (responseData.status === 200 && responseData.data.items) {
         this.listings = [...responseData.data.items];
       }
-    });
-  }
+    } catch (error) {
+      console.error('Fetch error:', error);
+      // Handle errors appropriately for your application
+    }
+  }  
 }
 // tell the browser about our tag and class it should run when it sees it
 customElements.define(TvApp.tag, TvApp);

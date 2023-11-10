@@ -17,6 +17,7 @@ export class TvChannel extends LitElement {
     return {
       title: { type: String },
       presenter: { type: String },
+      highlighted: { type: Boolean },
     };
   }
   // LitElement convention for applying styles JUST to our element
@@ -25,16 +26,22 @@ export class TvChannel extends LitElement {
       :host {
         display: inline-flex;
       }
+
       .wrapper {
         padding: 16px;
         background-color: #eeeeee;
       }
+
+      .highlighted {
+      background-color: #ffff99; // Example highlight color
+      }
+
     `;
   }
   // LitElement rendering template of your element
   render() {
     return html`
-      <div class="wrapper">
+      <div class="wrapper ${this.highlighted ? 'highlighted' : ''}" >
         <h3>${this.title}</h3>
         <h4>${this.presenter}</h4>
         <slot></slot>
