@@ -93,8 +93,8 @@ export class TvApp extends LitElement {
       <div class="lecture-content">
         <div class="lecture-screen">
           <iframe
-          width="560"
-          height="315"
+          height: 70vh;
+          width: 100%;
           src="https://www.youtube.com/embed/${this.videoId}"
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -109,10 +109,11 @@ export class TvApp extends LitElement {
         </div>
 
         <div class="lecture-player">
+
           <!-- Player controls or additional content here -->
         </div>
 
-        <div class = "lecture-sidebar">
+        <div class ="lecture-sidebar">
           ${
             this.listings.map(
               (item) => html`
