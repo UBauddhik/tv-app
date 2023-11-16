@@ -29,6 +29,7 @@ export class TvChannel extends LitElement {
 
       .wrapper {
         padding: 16px;
+        margin-top: 16px;
         background-color: #eeeeee;
       }
 

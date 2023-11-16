@@ -3,6 +3,7 @@ import { LitElement, html, css } from 'lit';
 import '@shoelace-style/shoelace/dist/components/dialog/dialog.js';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import "./tv-channel.js";
+import '@lrnwebcomponents/video-player/video-player.js';
 
 export class TvApp extends LitElement {
   // defaults
@@ -32,47 +33,49 @@ export class TvApp extends LitElement {
         display: block;
         margin: 16px;
         padding: 16px;
+        height: calc(100vh - 32px);
       }
 
-      .course-container {
-        display: flex;
-        flex-direction: row; /* Aligns the two main sections side by side */
+      .grid-container {
+        display: grid;
+        grid-template-columns: 3fr 1fr; /* 3 to 1 ratio between main content and sidebar */
+        grid-template-rows: auto 50px auto; /* auto for content, fixed height for slide info and player */
+        grid-template-areas: 
+          "lecture-screen lecture-sidebar"
+          "lecture-slide-info lecture-sidebar"
+          "lecture-player lecture-sidebar";
+        height: 100%; /* Fill the height of the host */
+        gap: 16px; /* Space between grid items */
       }
 
       .lecture-content {
-        flex-grow: 1; /* Allows the content to grow to fill the space */
-        display: flex;
-        flex-direction: column; /* Aligns the content vertically */
-        padding: 10px;
+        display: grid;
+        grid-template-rows: 70vh 20vh auto; /* Divide the content area into three rows */
+        grid-template-columns: 1fr; /* Single column layout in this container */
       }
 
       .lecture-screen {
-        height: 70vh;
-        width: 100%;
+        grid-area: lecture-screen;
         background-color: #ddd;
       }
 
       .lecture-slide-info {
-        height: 20vh;
-        width: 100%;
-        background-color: #eee;
+        grid-area: lecture-slide-info;
         display: flex;
-        flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        padding: 0 1em; /* Adds padding to the left and right of the content */
+        background-color: #eee; /* Placeholder color */
+        padding: 0 1em;
       }
 
       .lecture-player {
-        height: 10vh;
-        width: 100%;
-        background-color: #ccc;
+        grid-area: lecture-player;
+        background-color: #eeeeee;
       }
 
       .lecture-sidebar {
-        width: 250px;
+        grid-area: lecture-sidebar;
         background-color: #f8f8f8;
-        height: 100vh;
         overflow-y: auto;  // Enables scrolling
         padding: 10px;
         -webkit-overflow-scrolling: touch; // For smooth scrolling on touch devices
@@ -80,7 +83,31 @@ export class TvApp extends LitElement {
 
       tv-channel {
         flex: 0 0 auto; // Prevents channels from shrinking
-        margin-right: 100px; // Spacing between channels
+        margin-bottom: 10px; // Spacing between channels
+      }
+
+      .previous-slide, .next-slide {
+        font-size: 20px;
+        background-color: #eeeeee;
+        /* Centering text in the button */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px; /* Adjust padding as needed */
+      }
+
+      @media screen and (max-width: 768px) {
+
+        .grid-container {
+
+          grid-template-columns: 1fr; /* Stack sidebar below the main content on small screens */
+          grid-template-rows: auto 50px auto 1fr;
+          grid-template-areas:
+            "lecture-screen"
+            "lecture-slide-info"
+            "lecture-player"
+            "lecture-sidebar";
+        }
       }
       `
     ];
@@ -89,17 +116,9 @@ export class TvApp extends LitElement {
   render() {
     return html`
 
-    <div class="course-container">
-      <div class="lecture-content">
+      <div class="grid-container">
         <div class="lecture-screen">
-          <iframe
-          height: 70vh;
-          width: 100%;
-          src="https://www.youtube.com/embed/${this.videoId}"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-          ></iframe>
+          <video-player><source>https://www.youtube.com/watch?v=8vnGOvxNy5U</video-player>
         </div>
 
         <div class="lecture-slide-info">
@@ -109,7 +128,16 @@ export class TvApp extends LitElement {
         </div>
 
         <div class="lecture-player">
-
+        <tv-channel title="HAX: Wordpress Killer" presenter="Bryan Ollendyke">
+          <p>HAX is a visual web builder for producing content in a “forever” format known as HTML, 
+            with a wrinkle. Imagine being able to reprogram the <strong>strong</strong> tag. While silly, this would 
+            fundamentally change the way you build and develop everything on the web. When we describe HTML as 
+            forever, it’s because the HAX platform is literally a <strong>h-a-x</strong> tag in the browser that we can reprogram 
+            after initial implementation. This means courses written in HAX 5 years ago, never touched by faculty,
+            leveraging advanced JS and CSS yet never known about by faculty, are more accessible, higher in usability,
+            load faster, and are easier to use by students with 0 additional effort by faculty or staff.
+          </p>
+        </tv-channel>
           <!-- Player controls or additional content here -->
         </div>
 
@@ -126,8 +154,7 @@ export class TvApp extends LitElement {
               `
             )
           }
-        </div>      
-
+        </div> 
       </div>
       <!-- dialog -->
       <sl-dialog label="Dialog" class="dialog">
