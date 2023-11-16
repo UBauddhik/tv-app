@@ -118,7 +118,7 @@ export class TvApp extends LitElement {
 
       <div class="grid-container">
         <div class="lecture-screen">
-          <video-player><source>https://www.youtube.com/watch?v=8vnGOvxNy5U</video-player>
+          <video-player source = https://www.youtube.com/watch?v=8vnGOvxNy5U></video-player>
         </div>
 
         <div class="lecture-slide-info">
