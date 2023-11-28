@@ -118,7 +118,7 @@ export class TvApp extends LitElement {
 
       <div class="grid-container">
         <div class="lecture-screen">
-          <video-player source = https://www.youtube.com/watch?v=8vnGOvxNy5U></video-player>
+          <video-player source = 'https://www.youtube.com/watch?v=PedcMZihFbM&t'></video-player>
         </div>
 
         <div class="lecture-slide-info">
@@ -128,17 +128,9 @@ export class TvApp extends LitElement {
         </div>
 
         <div class="lecture-player">
-        <tv-channel title="HAX: Wordpress Killer" presenter="Bryan Ollendyke">
-          <p>HAX is a visual web builder for producing content in a “forever” format known as HTML, 
-            with a wrinkle. Imagine being able to reprogram the <strong>strong</strong> tag. While silly, this would 
-            fundamentally change the way you build and develop everything on the web. When we describe HTML as 
-            forever, it’s because the HAX platform is literally a <strong>h-a-x</strong> tag in the browser that we can reprogram 
-            after initial implementation. This means courses written in HAX 5 years ago, never touched by faculty,
-            leveraging advanced JS and CSS yet never known about by faculty, are more accessible, higher in usability,
-            load faster, and are easier to use by students with 0 additional effort by faculty or staff.
-          </p>
-        </tv-channel>
-          <!-- Player controls or additional content here -->
+          <tv-channel title="HAX: Wordpress Killer" presenter="Bryan Ollendyke" class="activeLectureSlide" descriptionShown >
+
+          </tv-channel>
         </div>
 
         <div class ="lecture-sidebar">
@@ -148,6 +140,8 @@ export class TvApp extends LitElement {
                 <tv-channel 
                   title="${item.title}"
                   presenter="${item.metadata.author}"
+                  description="${item.description}"
+                  timecode=${item.metadata.timecode}
                   @click="${this.itemClick}"
                 >
                 </tv-channel>
@@ -156,25 +150,20 @@ export class TvApp extends LitElement {
           }
         </div> 
       </div>
-      <!-- dialog -->
-      <sl-dialog label="Dialog" class="dialog">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        <sl-button slot="footer" variant="primary" @click="${this.closeDialog}">Close</sl-button>
-      </sl-dialog>
     `;
-  }
-
-  // Handles item click events
-  closeDialog(e) {
-    const dialog = this.shadowRoot.querySelector('.dialog');
-    dialog.hide();
   }
 
   // Lifecycle callback for property changes
   itemClick(e) {
     console.log(e.target);
-    const dialog = this.shadowRoot.querySelector('.dialog');
-    dialog.show();
+    const activeItem = this.shadowRoot.querySelector(".activeLectureSlide");
+    console.log(activeItem);
+    activeItem.setAttribute("title", e.target.title);
+    activeItem.setAttribute("presenter", e.target.presenter);
+    activeItem.setAttribute("description", e.target.description);
+    console.log(e.target.timecode);
+    this.shadowRoot.querySelector("video-player").shadowRoot.querySelector('a11y-media-player').seek(e.target.timecode);
+    
   }
 
   // LitElement life cycle for when any property changes | Fetches data from the source URL
