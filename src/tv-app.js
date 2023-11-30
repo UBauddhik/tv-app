@@ -12,17 +12,63 @@ export class TvApp extends LitElement {
     this.name = '';
     this.source = new URL('../assets/channels.json', import.meta.url).href;
     this.listings = [];
+    this.currentSlideIndex = 0;
   }
+
+  nextSlide() {
+    if (this.currentSlideIndex < this.listings.length - 1) {
+      this.currentSlideIndex++;
+      this.updateSlide();
+    }
+  }
+
+  previousSlide() {
+    if (this.currentSlideIndex > 0) {
+      this.currentSlideIndex--;
+      this.updateSlide();
+    }
+  }
+
+  updateSlide() {
+    const currentSlideData = this.listings[this.currentSlideIndex];
+    const videoPlayer = this.shadowRoot.querySelector('video-player').shadowRoot.querySelector('a11y-media-player');
+    if (videoPlayer) {
+      videoPlayer.source = currentSlideData.metadata.source;
+      videoPlayer.seek(currentSlideData.metadata.timecode);
+    }
+  
+    // Update the tv-channel in the lecture-player section
+    const lecturePlayerChannel = this.shadowRoot.querySelector('.lecture-player .activeLectureSlide');
+    if (lecturePlayerChannel) {
+      lecturePlayerChannel.title = currentSlideData.title;
+      lecturePlayerChannel.presenter = currentSlideData.metadata.author;
+      lecturePlayerChannel.description = currentSlideData.description;
+      // If you have any other properties to update, do it here
+      lecturePlayerChannel.requestUpdate(); // Request update if needed
+    }
+  
+    // Update the active state in the sidebar
+    const channels = this.shadowRoot.querySelectorAll('tv-channel');
+    channels.forEach((channel, index) => {
+      channel.classList.toggle('active', index === this.currentSlideIndex);
+      // Add any other UI updates you need for each channel
+    });
+  }
+  
+
   // convention I enjoy using to define the tag's name
   static get tag() {
     return 'tv-app';
   }
+
+
   // LitElement convention so we update render() when values change
   static get properties() {
     return {
       name: { type: String },
       source: { type: String },
       listings: { type: Array },
+      currentSlideIndex: { type: Number },
     };
   }
   // LitElement convention for applying styles JUST to our element
@@ -123,8 +169,8 @@ export class TvApp extends LitElement {
 
         <div class="lecture-slide-info">
           <!-- Information about the current slide -->
-          <button class="previous-slide">Previous Slide</button>
-          <button class="next-slide">Next Slide</button>
+          <button class="previous-slide" @click="${this.previousSlide}">Previous Slide</button>
+          <button class="next-slide" @click="${this.nextSlide}">Next Slide</button>
         </div>
 
         <div class="lecture-player">
@@ -163,11 +209,18 @@ export class TvApp extends LitElement {
     activeItem.setAttribute("description", e.target.description);
     console.log(e.target.timecode);
     this.shadowRoot.querySelector("video-player").shadowRoot.querySelector('a11y-media-player').seek(e.target.timecode);
-    
+    this.shadowRoot.querySelector('video-player').shadowRoot.querySelector("a11y-media-player").media.currentTime;
+    this.shadowRoot.querySelector('video-player').shadowRoot.querySelector('a11y-media-player').play();
+    const clickedIndex = this.listings.findIndex(item => item.title === e.target.title);
+    if (clickedIndex >= 0) {
+      this.currentSlideIndex = clickedIndex;
+      this.updateSlide();
+    }
   }
 
   // LitElement life cycle for when any property changes | Fetches data from the source URL
   updated(changedProperties) {
+    
     if (super.updated) {
       super.updated(changedProperties);
     }
