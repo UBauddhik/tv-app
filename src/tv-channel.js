@@ -31,16 +31,28 @@ export class TvChannel extends LitElement {
     return css`
       :host {
         display: inline-flex;
+        --background-color: #fff; /* Default white background */
+        --primary-color: #005792; /* PSU Blue */
       }
 
       .wrapper {
         padding: 16px;
-        margin-top: 16px;
-        background-color: #eeeeee;
+        margin-bottom: 10px;
+        background-color: var(--background-color);
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        cursor: pointer;
+        transition: box-shadow 0.3s, background-color 0.3s;
+      }
+      
+      .wrapper:hover {
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       }
 
-      .highlighted {
-      background-color: #ffff99; // Example highlight color
+      tv-channel.highlighted {
+        background-color: var(--primary-color);
+        color: #fff;
       }
 
     `;
@@ -51,7 +63,6 @@ export class TvChannel extends LitElement {
       <div class="wrapper ${this.highlighted ? 'highlighted' : ''}" >
         <h3>${this.title}</h3>
         <h4>${this.presenter}</h4>
-        <slot></slot>
         ${this.descriptionShown ? html`<p>${this.description}</p>` : ''}
       </div>  
       `;
