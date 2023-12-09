@@ -1,113 +1,154 @@
 {
   "status": 200,
   "data": {
-    "id": "123-123-123-123",
-    "title": "EdTechJokerTV",
-    "author": "EdTechJoker",
-    "description": "A series of talks to learn about JSON and web standard communications",
+    "id": "video-123456",
+    "title": "Apple Product Announcements 2023",
+    "author": "Apple",
+    "description": "Explore the latest Apple product announcements for the year 2023, featuring the new Apple Watch Series 9 and iPhone 15.",
     "license": "by-sa",
     "metadata": {},
     "items": [
       {
         "id": "0",
-        "indent": 0,
-        "location": "hax-wp-killer.html",
-        "slug": "hax-wp-killer",
-        "order": 0,
-        "parent": null,
-        "title": "0",
-        "description": "The future we need, not the future we have.",
+        "title": "Apple Watch Series 9",
+        "description": "The unveiling of the Apple Watch Series 9, which brings a breakthrough innovation in health and fitness technology.",
         "metadata": {
-          "source": "https://www.youtube.com/watch?v=PedcMZihFbM&t",
+          "source": "https://youtu.be/-HmaAl2X09E",
           "timecode": 0,
-          "author":"Bryan Ollendyke",
-          "created": 1697033522,
-          "updated": 1697034021
+          "author": "Apple",
+          "thumbnail": "data:image/png;base64,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"
         }
       },
       {
         "id": "1",
-        "indent": 0,
-        "location": "hax-wp-killer.html",
-        "slug": "hax-wp-killer",
-        "order": 0,
-        "parent": null,
-        "title": "1",
-        "description": "1",
+        "title": "Double Tap Feature Demo",
+        "description": "A live demonstration of the new double-tap feature on the Apple Watch, showcasing a seamless interface experience.",
         "metadata": {
-          "source": "https://www.youtube.com/watch?v=PedcMZihFbM&t",
-          "timecode": 100,
-          "author":"Bryan Ollendyke",
-          "created": 1697033522,
-          "updated": 1697034021
+          "source": "https://youtu.be/-HmaAl2X09E",
+          "timecode": 107,
+          "author": "Apple",
+          "thumbnail": "path/to/double-tap-feature-thumbnail.jpg"
         }
       },
       {
         "id": "2",
-        "indent": 0,
-        "location": "hax-wp-killer.html",
-        "slug": "hax-wp-killer",
-        "order": 0,
-        "parent": null,
-        "title": "2",
-        "description": "2",
+        "title": "Apple Watch Series 9 Availability",
+        "description": "Announcement of the global availability and pricing details for the new Apple Watch Series 9.",
         "metadata": {
-          "source": "https://www.youtube.com/watch?v=PedcMZihFbM&t",
+          "source": "https://youtu.be/-HmaAl2X09E",
           "timecode": 160,
-          "author":"Bryan Ollendyke",
-          "created": 1697033522,
-          "updated": 1697034021
+          "author": "Apple",
+          "thumbnail": "path/to/apple-watch-series-9-availability-thumbnail.jpg"
         }
       },
       {
         "id": "3",
-        "indent": 0,
-        "location": "hax-wp-killer.html",
-        "slug": "hax-wp-killer",
-        "order": 0,
-        "parent": null,
-        "title": "3",
-        "description": "3",
+        "title": "Apple Watch Ultra 2",
+        "description": "Introducing the Apple Watch Ultra 2, designed for the extreme and packed with advanced features for athletes and adventurers.",
         "metadata": {
-          "source": "https://www.youtube.com/watch?v=PedcMZihFbM&t",
-          "timecode": 220,
-          "author":"Bryan Ollendyke",
-          "created": 1697033522,
-          "updated": 1697034021
+          "source": "https://youtu.be/-HmaAl2X09E",
+          "timecode": 182,
+          "author": "Apple",
+          "thumbnail": "path/to/apple-watch-ultra-2-thumbnail.jpg"
         }
       },
       {
         "id": "4",
-        "indent": 0,
-        "location": "hax-wp-killer.html",
-        "slug": "hax-wp-killer",
-        "order": 0,
-        "parent": null,
-        "title": "4",
-        "description": "4",
+        "title": "iPhone 15 Hardware",
+        "description": "A comprehensive look at the innovative hardware design and technological enhancements in the new iPhone 15.",
         "metadata": {
-          "source": "https://www.youtube.com/watch?v=PedcMZihFbM&t",
-          "timecode": 280,
-          "author":"Bryan Ollendyke",
-          "created": 1697033522,
-          "updated": 1697034021
+          "source": "https://youtu.be/-HmaAl2X09E",
+          "timecode": 317,
+          "author": "Apple",
+          "thumbnail": "path/to/iphone-15-hardware-thumbnail.jpg"
         }
       },
       {
         "id": "5",
-        "indent": 0,
-        "location": "hax-wp-killer.html",
-        "slug": "hax-wp-killer",
-        "order": 0,
-        "parent": null,
-        "title": "5",
-        "description": "5",
+        "title": "iPhone 15 Camera",
+        "description": "Exploring the advanced camera features of the iPhone 15, including its improved image processing capabilities.",
         "metadata": {
-          "source": "https://www.youtube.com/watch?v=PedcMZihFbM&t",
-          "timecode": 340,
-          "author":"Bryan Ollendyke",
-          "created": 1697033522,
-          "updated": 1697034021
+          "source": "https://youtu.be/-HmaAl2X09E",
+          "timecode": 386,
+          "author": "Apple",
+          "thumbnail": "path/to/iphone-15-camera-thumbnail.jpg"
+        }
+      },
+      {
+        "id": "6",
+        "title": "iPhone 15 Performance",
+        "description": "Unveiling the performance enhancements of the iPhone 15, focusing on its processor speed and efficiency.",
+        "metadata": {
+          "source": "https://youtu.be/-HmaAl2X09E",
+          "timecode": 409,
+          "author": "Apple",
+          "thumbnail": "path/to/iphone-15-performance-thumbnail.jpg"
+        }
+      },
+      {
+        "id": "7",
+        "title": "iPhone + USB-C",
+        "description": "Introduction of USB-C in iPhone 15, marking a significant shift in Apple's approach to universal connectivity.",
+        "metadata": {
+          "source": "https://youtu.be/-HmaAl2X09E",
+          "timecode": 549,
+          "author": "Apple",
+          "thumbnail": "path/to/iphone-usb-c-thumbnail.jpg"
+        }
+      },
+      {
+        "id": "8",
+        "title": "iPhone 15 Availability",
+        "description": "Details on the release and availability of the iPhone 15, including information on various models and global launch dates.",
+        "metadata": {
+          "source": "https://youtu.be/-HmaAl2X09E",
+          "timecode": 574,
+          "author": "Apple",
+          "thumbnail": "path/to/iphone-15-availability-thumbnail.jpg"
+        }
+      },
+      {
+        "id": "9",
+        "title": "iPhone 15 Pro Hardware",
+        "description": "An in-depth look at the iPhone 15 Pro's hardware upgrades, featuring a more robust and efficient system architecture.",
+        "metadata": {
+          "source": "https://youtu.be/-HmaAl2X09E",
+          "timecode": 680,
+          "author": "Apple",
+          "thumbnail": "path/to/iphone-15-pro-hardware-thumbnail.jpg"
+        }
+      },
+      {
+        "id": "10",
+        "title": "iPhone 15 Pro Performance",
+        "description": "An overview of the iPhone 15 Pro's superior performance capabilities, highlighting its powerful processor and advanced computing features.",
+        "metadata": {
+          "source": "https://youtu.be/-HmaAl2X09E",
+          "timecode": 720,
+          "author": "Apple",
+          "thumbnail": "path/to/iphone-15-pro-performance-thumbnail.jpg"
+        }
+      },
+      {
+        "id": "11",
+        "title": "iPhone 15 Pro Camera",
+        "description": "Delving into the cutting-edge camera technology of the iPhone 15 Pro, showcasing its enhanced photography and videography features.",
+        "metadata": {
+          "source": "https://youtu.be/-HmaAl2X09E",
+          "timecode": 833,
+          "author": "Apple",
+          "thumbnail": "path/to/iphone-15-pro-camera-thumbnail.jpg"
+        }
+      },      
+      {
+        "id": "12",
+        "title": "iPhone 15 Pro Availability",
+        "description": "Availability details for the iPhone 15 Pro, including release dates and pre-order information.",
+        "metadata": {
+          "source": "https://youtu.be/-HmaAl2X09E",
+          "timecode": 1003,
+          "author": "Apple",
+          "thumbnail": "path/to/iphone-15-pro-availability-thumbnail.jpg"
         }
       }
     ]

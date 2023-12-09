@@ -140,14 +140,27 @@ export class TvApp extends LitElement {
 
       .lecture-sidebar {
         grid-area: lecture-sidebar;
-        flex-direction: column;
         display: flex;
+        flex-direction: column;
         gap: 10px;
-        background-color: #f8f8f8;
-        overflow-y: auto;  // Enables scrolling
-        -webkit-overflow-scrolling: touch; // For smooth scrolling on touch devices
-        color: #333333; /* Grey text */
-        max-width: 180px;
+        overflow-y: auto; /* Enables vertical scrolling if content overflows */
+        max-height: calc(100vh - 120px); /* Adjusted for viewport height and padding */
+        padding: 10px;
+        border-radius: 8px; /* Consistent border radius */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .lecture-sidebar::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .lecture-sidebar::-webkit-scrollbar-thumb {
+        background: #ccc;
+        border-radius: 4px;
+      }
+
+      .lecture-sidebar::-webkit-scrollbar-thumb:hover {
+        background: #bbb;
       }
 
       tv-channel {
@@ -177,11 +190,12 @@ export class TvApp extends LitElement {
       }
 
       tv-channel.active {
-        background-color: #e9ecef; /* Change background color for active channel */
-        color: white; /* Change text color for active channel */
-        border-color: var(--primary-color); /* More pronounced border color */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Stronger shadow for active state */
-        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; /* Add transition for feedback */
+        background-color: #e9ecef; 
+        color: white; 
+        border-color: var(--primary-color); 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; 
+        --background-color: var(--primary-color, #005792);
       }
 
 
@@ -213,7 +227,7 @@ export class TvApp extends LitElement {
       <div class="grid-container">
         
         <div class="lecture-screen">
-          <video-player source = 'https://www.youtube.com/watch?v=PedcMZihFbM&t'></video-player>
+          <video-player source = 'https://youtu.be/-HmaAl2X09E'></video-player>
         </div>
 
         <div class="button-box">
@@ -234,18 +248,16 @@ export class TvApp extends LitElement {
             this.listings.map(
               (item, index) => html`
                 <tv-channel
-                  ?active="${index === this.activeIndex}" 
-                  title="${item.title}"
-                  presenter="${item.metadata.author}"
-                  description="${item.description}"
-                  timecode=${item.metadata.timecode}
-                  index="${index}" 
-                  @click="${() => this.updateSlide(index)}"
+                ?active="${index === this.activeIndex}" 
+                .index="${index}" 
+                .title="${item.title}"
+                .description="${item.description}"
+                .timecode="${item.metadata.timecode}"
+                .thumbnail="${item.metadata.thumbnail}"
+                @click="${() => this.updateSlide(index)}"
                 >
                 </tv-channel>
-              `
-            )
-          }
+              `)}
         </div> 
       </div>
     `;
@@ -270,6 +282,11 @@ export class TvApp extends LitElement {
             const videoPlayer = this.shadowRoot.querySelector('video-player').shadowRoot.querySelector('a11y-media-player');
             videoPlayer.seek(currentSlideData.metadata.timecode);
             videoPlayer.play();
+          }
+
+          const activeChannel = this.shadowRoot.querySelector(`tv-channel[index="${this.activeIndex}"]`);
+          if (activeChannel) {
+            activeChannel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
           }
   
           // Update UI for active slide
