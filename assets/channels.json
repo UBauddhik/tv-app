@@ -27,7 +27,7 @@
           "source": "https://youtu.be/-HmaAl2X09E",
           "timecode": 107,
           "author": "Apple",
-          "thumbnail": "path/to/double-tap-feature-thumbnail.jpg"
+          "thumbnail": "https://www.apple.com/v/apple-watch-series-9/b/images/overview/gestures/kinetic-tap-tap_fallback__lufv77h9z3ey_large.png"
         }
       },
       {
@@ -38,7 +38,7 @@
           "source": "https://youtu.be/-HmaAl2X09E",
           "timecode": 160,
           "author": "Apple",
-          "thumbnail": "path/to/apple-watch-series-9-availability-thumbnail.jpg"
+          "thumbnail": "https://www.apple.com/newsroom/videos/apple-watch-s9-sip/posters/Apple-Watch-S9-SiP-230912.jpg.large_2x.jpg"
         }
       },
       {
@@ -49,7 +49,7 @@
           "source": "https://youtu.be/-HmaAl2X09E",
           "timecode": 182,
           "author": "Apple",
-          "thumbnail": "path/to/apple-watch-ultra-2-thumbnail.jpg"
+          "thumbnail": "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ultra-band-unselect-gallery-1-202309_FMT_WHH?wid=752&hei=720&fmt=p-jpg&qlt=80&.v=1693544486108"
         }
       },
       {
@@ -60,7 +60,7 @@
           "source": "https://youtu.be/-HmaAl2X09E",
           "timecode": 317,
           "author": "Apple",
-          "thumbnail": "path/to/iphone-15-hardware-thumbnail.jpg"
+          "thumbnail": "https://valkyrie.cdn.ifixit.com/media/2023/09/24230945/iPhone15_layout_v2.jpg"
         }
       },
       {
@@ -71,7 +71,7 @@
           "source": "https://youtu.be/-HmaAl2X09E",
           "timecode": 386,
           "author": "Apple",
-          "thumbnail": "path/to/iphone-15-camera-thumbnail.jpg"
+          "thumbnail": "https://photos5.appleinsider.com/gallery/56213-114105-iPhone-15-Pro-camera-xl.jpg"
         }
       },
       {
@@ -82,7 +82,7 @@
           "source": "https://youtu.be/-HmaAl2X09E",
           "timecode": 409,
           "author": "Apple",
-          "thumbnail": "path/to/iphone-15-performance-thumbnail.jpg"
+          "thumbnail": "https://www.gizchina.com/wp-content/uploads/images/2022/12/Apple-iPhone-15-A17.jpg"
         }
       },
       {
@@ -93,7 +93,7 @@
           "source": "https://youtu.be/-HmaAl2X09E",
           "timecode": 549,
           "author": "Apple",
-          "thumbnail": "path/to/iphone-usb-c-thumbnail.jpg"
+          "thumbnail": "https://soyacincau.com/wp-content/uploads/2023/09/230913-apple-iphone-15-usb-c-1.jpg"
         }
       },
       {
@@ -104,7 +104,7 @@
           "source": "https://youtu.be/-HmaAl2X09E",
           "timecode": 574,
           "author": "Apple",
-          "thumbnail": "path/to/iphone-15-availability-thumbnail.jpg"
+          "thumbnail": "https://m-cdn.phonearena.com/images/hubs/3362-image/2023-09-12-21-20-30.935.jpg"
         }
       },
       {
@@ -115,7 +115,7 @@
           "source": "https://youtu.be/-HmaAl2X09E",
           "timecode": 680,
           "author": "Apple",
-          "thumbnail": "path/to/iphone-15-pro-hardware-thumbnail.jpg"
+          "thumbnail": "https://www.apple.com/v/iphone-15-pro/c/images/overview/design/frame_endframe__cmrqk0dczkgi_large.jpg"
         }
       },
       {
@@ -126,7 +126,7 @@
           "source": "https://youtu.be/-HmaAl2X09E",
           "timecode": 720,
           "author": "Apple",
-          "thumbnail": "path/to/iphone-15-pro-performance-thumbnail.jpg"
+          "thumbnail": "https://m-cdn.phonearena.com/images/reviews/254014-image/iPhone-15-Pro-vs-15.jpg"
         }
       },
       {
@@ -137,9 +137,9 @@
           "source": "https://youtu.be/-HmaAl2X09E",
           "timecode": 833,
           "author": "Apple",
-          "thumbnail": "path/to/iphone-15-pro-camera-thumbnail.jpg"
+          "thumbnail": "https://www.lux.camera/content/images/size/w1000/2023/10/hero-4.jpg"
         }
-      },      
+      },
       {
         "id": "12",
         "title": "iPhone 15 Pro Availability",
@@ -148,9 +148,9 @@
           "source": "https://youtu.be/-HmaAl2X09E",
           "timecode": 1003,
           "author": "Apple",
-          "thumbnail": "path/to/iphone-15-pro-availability-thumbnail.jpg"
+          "thumbnail": "https://beebom.com/wp-content/uploads/2023/09/iphone-15-sale-date.jpg?w=750"
         }
-      }
+      }      
     ]
   }
 }

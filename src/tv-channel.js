@@ -36,9 +36,9 @@ export class TvChannel extends LitElement {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 20px;
+        padding: 5px;
         background-color: #f8f8f8;
-        border: 1px solid #ddd;
+        border: 0.5px solid #ddd;
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         cursor: pointer;
@@ -52,10 +52,10 @@ export class TvChannel extends LitElement {
       }
 
       .thumbnail {
-        width: 100%; /* Full width of the container */
-        height: 100%;
-        object-fit: contain;
-        
+        width: 100%; /* Adjust width as needed */
+        max-width: 200px; /* Maximum width */
+        border-radius: 0.5px; 
+        box-shadow: 0 2px 4px rgba(0,0,0,0.25);
       }
 
       .text-overlay {
@@ -64,14 +64,11 @@ export class TvChannel extends LitElement {
         left: 0;
         width: 100%;
         text-align: center;
-        color: #2e2b2b; /* White text for better contrast */
+        color: #020202; /* White text for better contrast */
         padding: 10px;
         backdrop-filter: blur(15px); /* Apply a blur effect to the background */
         -webkit-backdrop-filter: blur(15px); /* For Safari browser compatibility */
       }
-
-
-
 
       h3, h4 {
         margin: 0;
