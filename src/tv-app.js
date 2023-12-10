@@ -20,12 +20,27 @@ export class TvApp extends LitElement {
     this._updateTimeInterval = setInterval(() => {
       const videoPlayer = this.shadowRoot.querySelector('video-player').shadowRoot.querySelector('a11y-media-player');
       const currentTime = videoPlayer.currentTime;
-      if (this.activeIndex + 1 < this.listings.length &&
-          currentTime >= this.listings[this.activeIndex + 1].metadata.timecode) {
-        this.activeIndex++;  // This will trigger the updated method
+      console.log(`[Interval Callback] currentTime: ${currentTime}`);
+      let newActiveIndex = this.findActiveIndex(currentTime);
+      console.log(`[Interval Callback] newActiveIndex: ${newActiveIndex}, current activeIndex: ${this.activeIndex}`);
+      if (newActiveIndex !== this.activeIndex) {
+          this.activeIndex = newActiveIndex;
+          console.log(`[Interval Callback] Updated activeIndex: ${this.activeIndex}`);
+          this.requestUpdate(); // Trigger an update to reflect changes
       }
-    }, 1000);
+  }, 1000);}
+
+findActiveIndex(currentTime) {
+  console.log(`[findActiveIndex] currentTime: ${currentTime}`);
+  for (let i = this.listings.length - 1; i >= 0; i--) {
+      if (currentTime >= this.listings[i].metadata.timecode) {
+        console.log(`[findActiveIndex] Returned Index: ${i}`);
+        return i;
+      }
   }
+  return 0; // Default to the first index if no match is found
+}
+
 
   disconnectedCallback() {
     super.disconnectedCallback();
@@ -37,11 +52,14 @@ export class TvApp extends LitElement {
   
   // Lifecycle callback for when the element is added to the DOM
   updateSlide(newIndex, updateVideo = true) {
+    console.log(`[updateSlide] newIndex: ${newIndex}, current activeIndex: ${this.activeIndex}`);
     if (newIndex >= 0 && newIndex < this.listings.length && newIndex !== this.activeIndex) {
       this.activeIndex = newIndex;
-      this.updateSlideIndexAndUI();  // Always update the UI
+      console.log(`[updateSlide] Updated activeIndex: ${this.activeIndex}`);
       if (updateVideo) {
-        this.updateVideoTime();  // Update video time only if specified
+        const videoPlayer = this.shadowRoot.querySelector('video-player').shadowRoot.querySelector('a11y-media-player');
+        videoPlayer.seek(this.listings[newIndex].metadata.timecode);
+        videoPlayer.play();
       }
     }
   }
@@ -254,10 +272,12 @@ export class TvApp extends LitElement {
                 .description="${item.description}"
                 .timecode="${item.metadata.timecode}"
                 .thumbnail="${item.metadata.thumbnail}"
-                @click="${() => this.updateSlide(index)}"
-                >
-                </tv-channel>
-              `)}
+                @click="${() => { 
+              console.log(`[Click Event] Channel Index: ${index}`);
+              this.updateSlide(index);
+            }}"
+          ></tv-channel>
+        `)}
         </div> 
       </div>
     `;
@@ -268,46 +288,46 @@ export class TvApp extends LitElement {
   updated(changedProperties) {
     super.updated(changedProperties);
     changedProperties.forEach((oldValue, propName) => {
-      // Handle source changes
-      if (propName === "source" && this[propName]) {
-        this.updateSourceData(this[propName]);
-      }
-  
-      // Handle activeIndex changes
-      if (propName === "activeIndex") {
-        const currentSlideData = this.listings[this.activeIndex];
-        if (currentSlideData) {
-          // Update video player time
-          if (currentSlideData.metadata.timecode !== undefined) {
-            const videoPlayer = this.shadowRoot.querySelector('video-player').shadowRoot.querySelector('a11y-media-player');
-            videoPlayer.seek(currentSlideData.metadata.timecode);
-            videoPlayer.play();
-          }
+        // Handle source changes
+        if (propName === "source" && this[propName]) {
+            this.updateSourceData(this[propName]);
+        }
 
-          const activeChannel = this.shadowRoot.querySelector(`tv-channel[index="${this.activeIndex}"]`);
-          if (activeChannel) {
-            activeChannel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-          }
-  
-          // Update UI for active slide
-          const activeItem = this.shadowRoot.querySelector(".activeLectureSlide");
-          if (activeItem) {
+        // Handle activeIndex changes for UI updates
+        if (propName === "activeIndex") {
+            this.updateUI(); // Call the new method to update UI
+        }
+    });
+  }
+
+updateUI() {
+
+    // Update UI based on activeIndex
+    const currentSlideData = this.listings[this.activeIndex];
+    if (currentSlideData) {
+        // Update UI for active slide
+        const activeItem = this.shadowRoot.querySelector(".activeLectureSlide");
+        if (activeItem) {
             // Update title, presenter, description as necessary
-            // Ensure these properties exist on the activeItem
             activeItem.title = currentSlideData.title;
             activeItem.presenter = currentSlideData.metadata.author;
             activeItem.description = currentSlideData.description;
-          }
-  
-          // Update active state of channels
-          const channels = this.shadowRoot.querySelectorAll('tv-channel');
-          channels.forEach((channel, index) => {
-            channel.classList.toggle('active', index === this.activeIndex);
-          });
         }
-      }
-    });
+
+        // Ensure the active channel is visible in the sidebar
+        const activeChannel = this.shadowRoot.querySelector(`tv-channel[index="${this.activeIndex}"]`);
+        if (activeChannel) {
+            activeChannel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Update active state of channels
+        const channels = this.shadowRoot.querySelectorAll('tv-channel');
+        channels.forEach((channel, index) => {
+            channel.classList.toggle('active', index === this.activeIndex);
+        });
+    }
   }
+
 
   async updateSourceData(source) {
     try {

@@ -7,9 +7,7 @@ export class TvChannel extends LitElement {
     super();
     this.title = '';
     this.presenter = '';
-    this.descriptionShown = false;
     this.description = '';
-    this.timecode ;
   }
   // convention I enjoy using to define the tag's name
   static get tag() {
@@ -18,12 +16,10 @@ export class TvChannel extends LitElement {
   // LitElement convention so we update render() when values change
   static get properties() {
     return {
-      timecode: { type: Number },
       title: { type: String },
       thumbnail: { type: String },
       description: { type: String },
       highlighted: { type: Boolean },
-      descriptionShown: { type: Boolean },
     };
   }
   // LitElement convention for applying styles JUST to our element
@@ -36,10 +32,10 @@ export class TvChannel extends LitElement {
       .wrapper {
         display: flex;
         align-items: center;
-        gap: 10px; /* Spacing between thumbnail and text */
+        gap: 10px;
         padding: 10px;
         margin-bottom: 10px;
-        background-color: var(--background-color);
+        background-color: #fff;
         border: 1px solid #ddd;
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0,0,0,0.05);
@@ -59,7 +55,7 @@ export class TvChannel extends LitElement {
       }
   
       .highlighted {
-        background-color: var(#005792); 
+        background-color: #005792; 
         color: #fff;
       }
     `;
@@ -72,7 +68,6 @@ export class TvChannel extends LitElement {
       ${this.thumbnail ? html`<img src="${this.thumbnail}" alt="${this.title}" class="thumbnail">` : ''}
         <h3>${this.title}</h3>
         <h4>${this.presenter}</h4>
-        ${this.descriptionShown ? html`<p>${this.description}</p>` : ''}
       </div>  
       `;
   }
