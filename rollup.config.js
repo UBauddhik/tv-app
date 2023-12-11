@@ -23,7 +23,8 @@ export default {
     }),
     copy({
       targets: [
-        { src: 'assets/', dest: 'dist' }
+        { src: 'assets/', dest: 'dist' },
+        { src: 'node_modules/@lrnwebcomponents/simple-icon/lib/svgs', dest: 'dist'},
       ]
     }),
     /** Resolve bare module imports */
