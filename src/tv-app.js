@@ -12,32 +12,37 @@ export class TvApp extends LitElement {
     this.source = new URL('../assets/channels.json', import.meta.url).href;
     this.listings = [];
     this.activeIndex = 0;
+    this._autoMovedSlide = false;
   }
 
-  /**
- * Lifecycle callback for when the component is connected to the DOM.
- * Sets up an interval to periodically check the current time of the video
- * and update the active channel index accordingly.
- */
   connectedCallback() {
-    super.connectedCallback();
-    // Set an interval to check the video's current time every second
+    super.connectedCallback();  // Call the super class's connectedCallback method
+
+    // Set up an interval that runs every 1000 milliseconds (1 second)
     this._updateTimeInterval = setInterval(() => {
-      // Access the video player element and its current playback time
-      const videoPlayer = this.shadowRoot.querySelector('video-player').shadowRoot.querySelector('a11y-media-player');
-      const currentTime = videoPlayer.currentTime;
       
-      // Find the active index based on the current time of the video
-      let newActiveIndex = this.findActiveIndex(currentTime);
-      
-      // Update the active index if it's different from the current activeIndex
-      if (newActiveIndex !== this.activeIndex) {
+      // Check if the slide was not manually moved
+      if (!this._autoMovedSlide) { 
+        // Access the video player and get its current playback time
+        const videoPlayer = this.shadowRoot.querySelector('video-player').shadowRoot.querySelector('a11y-media-player');
+        const currentTime = videoPlayer.currentTime;
+
+        // Determine the new active index based on the video's current time
+        let newActiveIndex = this.findActiveIndex(currentTime);
+  
+        // If the new active index is different from the current, update it
+        if (newActiveIndex !== this.activeIndex) {
           this.activeIndex = newActiveIndex;
-          // Request an update to re-render the component with the new active index
-          this.requestUpdate(); 
+          // Request an update to the component to reflect the change in active index
+          this.requestUpdate();
+        }
+      } else {
+        // If the slide was manually moved, reset the _autoMovedSlide flag
+        // This indicates the end of the manual movement cycle
+        this._autoMovedSlide = false;
       }
-    }, 1000);
-  }
+    }, 1000); // The interval duration is set to 1 second
+}
 
   /**
   * Determines the active index (channel) based on the current time of the video.
@@ -75,41 +80,45 @@ export class TvApp extends LitElement {
   }
 
   /**
-  * Updates the currently active slide based on a new index.
-  * Optionally updates the video time to match the new slide.
-  * @param {number} newIndex - The new index to set as the active slide.
-  * @param {boolean} [updateVideo=true] - Flag to control whether to update the video time.
-  */
-
+   * Updates the currently active slide based on a new index.
+   * Optionally updates the video time to match the new slide.
+   * @param {number} newIndex - The new index to set as the active slide.
+   * @param {boolean} [updateVideo=true] - Flag to control whether to update the video time.
+   */
   updateSlide(newIndex, updateVideo = true) {
-    // Check if the newIndex is valid and different from the current activeIndex
+    // Check if the new index is within the valid range and different from the current index
     if (newIndex >= 0 && newIndex < this.listings.length && newIndex !== this.activeIndex) {
-      // Update the activeIndex to the new index
-      this.activeIndex = newIndex;
+      this.activeIndex = newIndex; // Update the active index to the new index
       
-      // If updateVideo flag is true, seek the video to the new slide's timecode
+      // If the updateVideo flag is set, update the video to the new index's timecode
       if (updateVideo) {
+        // Access the video player component and use it to seek to the new timecode
         const videoPlayer = this.shadowRoot.querySelector('video-player').shadowRoot.querySelector('a11y-media-player');
-        videoPlayer.seek(this.listings[newIndex].metadata.timecode);
-        videoPlayer.play();
+        videoPlayer.seek(this.listings[newIndex].metadata.timecode); // Seek to the new timecode
+        videoPlayer.play(); // Start playing the video from the new timecode
       }
+
+      // Set the _autoMovedSlide flag to true to indicate that this was a manual slide change
+      this._autoMovedSlide = true;
     }
   }
 
   /**
   * Navigates to the next slide.
   */
-
   nextSlide() {
-    this.updateSlide(this.activeIndex + 1);
+    if (this.activeIndex < this.listings.length - 1) {
+      this.updateSlide(this.activeIndex + 1);
+    }
   }
 
   /**
   * Navigates to the previous slide.
   */
-
   previousSlide() {
-    this.updateSlide(this.activeIndex - 1);
+    if (this.activeIndex > 0) {
+      this.updateSlide(this.activeIndex - 1);
+    }
   }
 
 
@@ -248,13 +257,12 @@ export class TvApp extends LitElement {
       }
 
       tv-channel.active {
-        background-color: #e9ecef; 
-        color: white; 
-        border-color: var(--primary-color); 
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; 
-        --background-color: var(--primary-color, #005792);
+        background-color: #007bff; 
+        font-weight: bold;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 1); 
+        transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
       }
+
 
 
       @media screen and (max-width: 768px) {
